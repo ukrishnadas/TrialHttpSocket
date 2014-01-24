@@ -157,13 +157,13 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         _connectSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
         [_connectSocket setDelegate:self];
         NSError *error = nil;
-        NSString *hostString = [serverDetailsDic objectForKey:@"ipAddress"];
-        int portNumber = [[serverDetailsDic objectForKey:@"port"] intValue];
-        BOOL isConnectedToHost = [self.connectSocket connectToHost:@"172.20.10.1" onPort:8080 error:&error];
+        u_int16_t prt = 8080;
+        BOOL isConnectedToHost = [self.connectSocket connectToHost:_selectedServer.hostName onPort:prt error:&error];
         if(!error && isConnectedToHost){
             [self successfullyEstablishedConnection];
         }
         else{
+            NSLog(@"ERROR -- %@",error.description);
             [self failedToEstablishServerConnection];
         }
 
